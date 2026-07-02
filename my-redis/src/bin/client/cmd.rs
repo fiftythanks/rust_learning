@@ -1,0 +1,16 @@
+use bytes::Bytes;
+use tokio::sync::oneshot;
+
+pub enum Command {
+    Get {
+        key: String,
+        resp: Responder<Option<Bytes>>,
+    },
+    Set {
+        key: String,
+        val: Bytes,
+        resp: Responder<()>,
+    },
+}
+
+type Responder<T> = oneshot::Sender<mini_redis::Result<T>>;
